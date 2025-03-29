@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="ControlCharts\Individual\" />
+    <Folder Include="ControlCharts\Median\" />
+    <Folder Include="ControlCharts\Defective\" />
+    <Folder Include="ControlCharts\Defects\" />
+  </ItemGroup>
+
 </Project>

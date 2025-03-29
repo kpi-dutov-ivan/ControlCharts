@@ -1,4 +1,4 @@
-﻿namespace Business
+﻿namespace Business.ControlCharts
 {
     public abstract class ControlChart
     {
@@ -11,11 +11,5 @@
         {
 
         }
-
-        protected ControlChart(List<Subgroup> subgroups)
-        {
-            Calculate(subgroups);
-        }
-
     }
 }
