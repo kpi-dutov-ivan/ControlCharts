@@ -31,9 +31,9 @@ public class RChart(List<Subgroup> subgroups) : XrsChart(subgroups)
             { 25, (0.459, 1.541) }
         };
 
-    public override void Calculate(List<Subgroup> subgroups)
+    public override void Calculate()
     {
-        Values = [.. subgroups.Select(s => s.Range)];
+        Values = [.. _subgroups.Select(s => s.Range)];
         var rangeMean = Values.Average();
         var (D3, D4) = Coefficients[SubgroupSize];
         CenterLine = rangeMean;

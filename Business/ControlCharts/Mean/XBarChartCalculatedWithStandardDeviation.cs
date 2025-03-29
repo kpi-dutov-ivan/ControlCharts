@@ -31,10 +31,11 @@ public class XBarChartCalculatedWithStandardDeviation(List<Subgroup> subgroups) 
             { 25, 0.606 }
         };
 
-    public override void Calculate(List<Subgroup> subgroups)
+    public override void Calculate()
     {
-        var subgroupMean = subgroups.Average(s => s.Mean);
-        var standardDeviationMean = subgroups.Average(s => s.StandardDeviation);
+        Values = [.. _subgroups.Select(s => s.Mean)];
+        var subgroupMean = _subgroups.Average(s => s.Mean);
+        var standardDeviationMean = _subgroups.Average(s => s.StandardDeviation);
         var delta = A3Coefficients[SubgroupSize] * standardDeviationMean;
         LowerControlLine = subgroupMean - delta;
         CenterLine = subgroupMean;

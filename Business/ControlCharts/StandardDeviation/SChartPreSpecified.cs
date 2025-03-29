@@ -32,9 +32,9 @@ public class SChartPreSpecified(List<Subgroup> subgroups, double sigma0) : XrsCh
 
     public double Sigma0 { get; } = sigma0;
 
-    public override void Calculate(List<Subgroup> subgroups)
+    public override void Calculate()
     {
-        Values = [.. subgroups.Select(s => s.StandardDeviation)];
+        Values = [.. _subgroups.Select(s => s.StandardDeviation)];
         var (B5, B6, c4) = Coefficients[SubgroupSize];
         CenterLine = c4 * Sigma0;
         LowerControlLine = B5 * Sigma0;

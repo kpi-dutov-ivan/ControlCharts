@@ -2,10 +2,8 @@
 
 public abstract class XrsChart : ControlChart
 {
-    protected XrsChart(List<Subgroup> subgroups)
+    protected XrsChart(List<Subgroup> subgroups) : base(subgroups)
     {
-        if (subgroups.Count == 0) throw new ArgumentException("Cannot create chart for empty subgroups");
-
         const int maxSubgroupSize = 25;
         var subgroupSize = subgroups[0].Data.Count;
 
@@ -18,7 +16,6 @@ public abstract class XrsChart : ControlChart
             throw new ArgumentException("Use of subgroups of different sizes is not supported yet.");
 
         SubgroupSize = subgroupSize;
-        Values = [.. subgroups.Select(s => s.Mean)];
     }
 
     public int SubgroupSize { get; }

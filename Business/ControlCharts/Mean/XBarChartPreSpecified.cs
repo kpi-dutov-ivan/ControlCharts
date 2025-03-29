@@ -37,8 +37,9 @@ public class XBarChartPreSpecified(List<Subgroup> subgroups, double mu0, double 
 
     // TODO: Show warnings on big values, suggest any errors?
 
-    public override void Calculate(List<Subgroup> subgroups)
+    public override void Calculate()
     {
+        Values = [.. _subgroups.Select(s => s.Mean)];
         var delta = ACoefficients[SubgroupSize] * Sigma0;
         CenterLine = Mu0;
         LowerControlLine = CenterLine - delta;
