@@ -1,42 +1,41 @@
-﻿namespace Business
+﻿namespace Business;
+
+public class Subgroup
 {
-    public class Subgroup
+    public Subgroup(List<double> data)
     {
-        // TODO: Implement editing data.
-        public List<double> Data { get; set; }
-        public double Mean { get; private set; }
-        public double StandardDeviation { get; private set; }
-        public double Range { get; private set; }
+        Data = data;
+        Mean = CalculateMean();
+        StandardDeviation = CalculateStandardDeviation();
+        Range = CalculateRange();
+    }
 
-        private double CalculateMean()
+    // TODO: Implement editing data.
+    public List<double> Data { get; set; }
+    public double Mean { get; }
+    public double StandardDeviation { get; private set; }
+    public double Range { get; private set; }
+
+    private double CalculateMean()
+    {
+        return Data.Average();
+    }
+
+    private double CalculateStandardDeviation()
+    {
+        // TODO: Should it depend on Mean as being precalculated?
+        var sum = 0.0;
+        foreach (var value in Data)
         {
-            return Data.Average();
+            var dif = value - Mean;
+            sum += dif * dif;
         }
 
-        private double CalculateStandardDeviation()
-        {
-            // TODO: Should it depend on Mean as being precalculated?
-            var sum = 0.0;
-            foreach (var value in Data)
-            {
-                var dif = value - Mean;
-                sum += dif * dif;
-            }
+        return Math.Sqrt(sum / Data.Count);
+    }
 
-            return Math.Sqrt(sum / Data.Count);
-        }
-
-        private double CalculateRange()
-        {
-            return Data.Max() - Data.Min();
-        }
-
-        public Subgroup(int id, List<double> data)
-        {
-            Data = data;
-            Mean = CalculateMean();
-            StandardDeviation = CalculateStandardDeviation();
-            Range = CalculateRange();
-        }
+    private double CalculateRange()
+    {
+        return Data.Max() - Data.Min();
     }
 }
