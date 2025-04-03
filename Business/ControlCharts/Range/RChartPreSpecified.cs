@@ -35,7 +35,7 @@ public class RChartPreSpecified(List<Subgroup> subgroups, double sigma0) : XrsCh
 
     public override void Calculate()
     {
-        Values = [.. _subgroups.Select(s => s.Range)];
+        Points = [.. Subgroups.Select(s => s.Range)];
         var (D1, D2, d2) = Coefficients[SubgroupSize];
         CenterLine = d2 * Sigma0;
         LowerControlLine = D1 * Sigma0;

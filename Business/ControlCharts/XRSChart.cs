@@ -1,6 +1,6 @@
 ﻿namespace Business.ControlCharts;
 
-public abstract class XrsChart : ControlChart
+public abstract class XrsChart : SubgroupControlChart
 {
     protected XrsChart(List<Subgroup> subgroups) : base(subgroups)
     {
@@ -17,6 +17,4 @@ public abstract class XrsChart : ControlChart
 
         SubgroupSize = subgroupSize;
     }
-
-    public int SubgroupSize { get; }
 }

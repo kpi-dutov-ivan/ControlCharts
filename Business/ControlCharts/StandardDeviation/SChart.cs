@@ -33,8 +33,8 @@ public class SChart(List<Subgroup> subgroups) : XrsChart(subgroups)
 
     public override void Calculate()
     {
-        Values = [.. _subgroups.Select(s => s.StandardDeviation)];
-        var standardDeviationMean = Values.Average();
+        Points = [.. Subgroups.Select(s => s.StandardDeviation)];
+        var standardDeviationMean = Points.Average();
         var (B3, B4) = Coefficients[SubgroupSize];
         CenterLine = standardDeviationMean;
         LowerControlLine = B3 * standardDeviationMean;

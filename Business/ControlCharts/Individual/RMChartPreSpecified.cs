@@ -1,6 +1,6 @@
 ﻿namespace Business.ControlCharts.Individual
 {
-    public class RMChartPreSpecified(List<Subgroup> subgroups, double sigma0) : ControlChart(subgroups)
+    public class RMChartPreSpecified(List<Subgroup> subgroups, double sigma0) : SubgroupControlChart(subgroups)
     {
         private const double CentralLineCoefficient = 1.128;
         private const double UpperControlLineCoefficient = 3.686;
@@ -11,7 +11,7 @@
         public override void Calculate()
         {
             base.Calculate();
-            Values = [.. _subgroups.Zip(_subgroups.Skip(1), (a, b) => a.Data[0] - b.Data[0])];
+            Points = [.. Subgroups.Zip(Subgroups.Skip(1), (a, b) => a.Data[0] - b.Data[0])];
             CenterLine = CentralLineCoefficient * Sigma0;
             LowerControlLine = DefaultLowerControlLine;
             UpperControlLine = UpperControlLineCoefficient * Sigma0;

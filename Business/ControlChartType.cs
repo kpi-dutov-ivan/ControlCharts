@@ -20,7 +20,6 @@ public enum ControlChartType
     StandardDeviationPreSpecified,
     IndividualPreSpecified, // x pre-specified
     MovingRangePreSpecified, // rm pre-specified
-    MedianPreSpecified, // x-tilde pre-specified
     ProportionDefectivePreSpecified, // p pre-specified
     NumberDefectivePreSpecified, // np pre-specified
     NumberDefectsPreSpecified, // c pre-specified

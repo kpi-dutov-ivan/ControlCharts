@@ -44,6 +44,19 @@
             }
         }
 
+        private double? _median;
+
+        public double Median
+        {
+            get
+            {
+                if (!_changed && _median.HasValue) return _median.Value;
+                _median = CalculateMedian();
+                _changed = false;
+                return _median.Value;
+            }
+        }
+
         private double CalculateMean() => _data.Average();
 
         private double CalculateStandardDeviation()
@@ -54,6 +67,15 @@
         }
 
         private double CalculateRange() => _data.Max() - _data.Min();
+
+        private double CalculateMedian()
+        {
+            var sortedData = _data.Order().ToList();
+            var length = sortedData.Count;
+            return length % 2 == 1
+                ? sortedData[length / 2]
+                : (sortedData[length / 2 - 1] + sortedData[length / 2]) / 2.0;
+        }
 
         public void UpdateData(int index, double value)
         {

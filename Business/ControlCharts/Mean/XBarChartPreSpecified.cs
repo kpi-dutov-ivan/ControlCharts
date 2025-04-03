@@ -39,10 +39,10 @@ public class XBarChartPreSpecified(List<Subgroup> subgroups, double mu0, double 
 
     public override void Calculate()
     {
-        Values = [.. _subgroups.Select(s => s.Mean)];
-        var delta = ACoefficients[SubgroupSize] * Sigma0;
+        Points = [.. Subgroups.Select(s => s.Mean)];
+        var threeSigma = ACoefficients[SubgroupSize] * Sigma0;
         CenterLine = Mu0;
-        LowerControlLine = CenterLine - delta;
-        UpperControlLine = CenterLine + delta;
+        LowerControlLine = CenterLine - threeSigma;
+        UpperControlLine = CenterLine + threeSigma;
     }
 }

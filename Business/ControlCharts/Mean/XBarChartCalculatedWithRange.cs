@@ -35,13 +35,13 @@ public class XBarChartCalculatedWithRange(List<Subgroup> subgroups) : XrsChart(s
     public override void Calculate()
     {
         base.Calculate();
-        Values = [.. _subgroups.Select(s => s.Mean)];
-        var subgroupAverage = Values.Average();
-        var rangeAverage = _subgroups.Average(s => s.Range);
-        var delta = A2Coefficients[SubgroupSize] * rangeAverage;
+        Points = [.. Subgroups.Select(s => s.Mean)];
+        var subgroupAverage = Points.Average();
+        var rangeAverage = Subgroups.Average(s => s.Range);
+        var threeSigma = A2Coefficients[SubgroupSize] * rangeAverage;
 
-        LowerControlLine = subgroupAverage - delta;
+        LowerControlLine = subgroupAverage - threeSigma;
         CenterLine = subgroupAverage;
-        UpperControlLine = subgroupAverage + delta;
+        UpperControlLine = subgroupAverage + threeSigma;
     }
 }
