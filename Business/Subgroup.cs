@@ -1,17 +1,19 @@
-﻿namespace Business
+﻿using Business.ControlCharts;
+
+namespace Business
 {
-    public class Subgroup(List<double> data)
+    public class Subgroup(List<decimal> data) : ISubgroup
     {
         private bool _changed = true;
-        private readonly List<double> _data = [.. data];
+        private readonly List<decimal> _data = [.. data];
 
-        public IReadOnlyList<double> Data => _data.AsReadOnly();
+        public IReadOnlyList<decimal> Data => _data.AsReadOnly();
 
-        private double? _mean;
-        private double? _standardDeviation;
-        private double? _range;
+        private decimal? _mean;
+        private decimal? _standardDeviation;
+        private decimal? _range;
 
-        public double Mean
+        public decimal Mean
         {
             get
             {
@@ -22,7 +24,7 @@
             }
         }
 
-        public double StandardDeviation
+        public decimal StandardDeviation
         {
             get
             {
@@ -33,7 +35,7 @@
             }
         }
 
-        public double Range
+        public decimal Range
         {
             get
             {
@@ -44,9 +46,11 @@
             }
         }
 
-        private double? _median;
+        public int Size { get; private set; } = data.Count;
 
-        public double Median
+        private decimal? _median;
+
+        public decimal Median
         {
             get
             {
@@ -57,33 +61,33 @@
             }
         }
 
-        private double CalculateMean() => _data.Average();
+        private decimal CalculateMean() => _data.Average();
 
-        private double CalculateStandardDeviation()
+        private decimal CalculateStandardDeviation()
         {
             var mean = Mean;
             var sum = _data.Sum(value => (value - mean) * (value - mean));
             return Math.Sqrt(sum / _data.Count);
         }
 
-        private double CalculateRange() => _data.Max() - _data.Min();
+        private decimal CalculateRange() => _data.Max() - _data.Min();
 
-        private double CalculateMedian()
+        private decimal CalculateMedian()
         {
-            var sortedData = _data.Order().ToList();
+            var sortedData = _data.OrderBy(v => v).ToList();
             var length = sortedData.Count;
             return length % 2 == 1
                 ? sortedData[length / 2]
-                : (sortedData[length / 2 - 1] + sortedData[length / 2]) / 2.0;
+                : (sortedData[length / 2 - 1] + sortedData[length / 2]) / 2.0m;
         }
 
-        public void UpdateData(int index, double value)
+        public void UpdateData(int index, decimal value)
         {
             _data[index] = value;
             InvalidateCache();
         }
 
-        public void UpdateData(List<double> newData)
+        public void UpdateData(List<decimal> newData)
         {
             _data.Clear();
             _data.AddRange(newData);

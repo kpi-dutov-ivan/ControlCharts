@@ -4,9 +4,9 @@ namespace Business.ControlCharts.Median
 {
     class XTildeChart : SubgroupControlChart
     {
-        private ControlChart? _rangeChart;
+        private IControlChart? _rangeChart;
 
-        public XTildeChart(List<Subgroup> subgroups) : base(subgroups)
+        public XTildeChart(List<ISubgroup> subgroups) : base(subgroups)
         {
             const int maxSubgroupSize = 10;
 
@@ -18,8 +18,7 @@ namespace Business.ControlCharts.Median
 
         public override void Calculate()
         {
-            base.Calculate();
-            _rangeChart ??= new RChart(Subgroups);
+            _rangeChart ??= new RChart([.. Subgroups.Select(s => s.Range)], SubgroupSize);
             var rangeAverage = _rangeChart.CenterLine;
             var xMedianAverage = Subgroups.Average(s => s.Median);
             var threeSigma = A4Coefficients[SubgroupSize] * rangeAverage;
@@ -28,17 +27,17 @@ namespace Business.ControlCharts.Median
             UpperControlLine = CenterLine + threeSigma;
         }
 
-        private static readonly Dictionary<int, double> A4Coefficients = new()
+        private static readonly Dictionary<int, decimal> A4Coefficients = new()
         {
-            { 2, 1.880 },
-            {3, 1.187},
-            { 4, 0.796 },
-            { 5, 0.691 },
-            {6, 0.548},
-            {7, 0.508},
-            { 8, 0.433 },
-            {9, 0.412},
-            { 10, 0.362 }
+            { 2, 1.880m },
+            {3, 1.187m },
+            { 4, 0.796m },
+            { 5, 0.691m },
+            {6, 0.548m },
+            {7, 0.508m },
+            { 8, 0.433m },
+            {9, 0.412m },
+            { 10, 0.362m }
         };
     }
 }

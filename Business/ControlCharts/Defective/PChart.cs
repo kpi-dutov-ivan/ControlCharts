@@ -13,9 +13,8 @@
 
         public override void Calculate()
         {
-            base.Calculate();
-            var defectiveProportionAverage = Defectives.Average(d => (double)d.DefectiveCount) / _overallCount;
-            var threeSigma = Math.Sqrt(defectiveProportionAverage * (1.0 - defectiveProportionAverage) / _overallCount);
+            var defectiveProportionAverage = Defectives.Average(d => (decimal)d.DefectiveCount) / _overallCount;
+            var threeSigma = Math.Sqrt(defectiveProportionAverage * (1.0m - defectiveProportionAverage) / _overallCount);
             CenterLine = defectiveProportionAverage;
             LowerControlLine = CenterLine - threeSigma;
             UpperControlLine = CenterLine + threeSigma;

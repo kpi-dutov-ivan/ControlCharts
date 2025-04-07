@@ -1,18 +1,18 @@
 ﻿namespace Business.ControlCharts
 {
-    public abstract class SubgroupControlChart : ControlChart
+    public abstract class SubgroupControlChart : IControlChart
     {
         private const int DynamicSubgroupSize = int.MaxValue;
         public int SubgroupSize { get; protected set; }
 
-        protected List<Subgroup> Subgroups;
-        protected SubgroupControlChart(List<Subgroup> subgroups) : base()
+        protected List<ISubgroup> Subgroups;
+        protected SubgroupControlChart(List<ISubgroup> subgroups) : base()
         {
             InitializeSubgroupSize(subgroups);
             Subgroups = [.. subgroups];
         }
 
-        private void InitializeSubgroupSize(List<Subgroup> subgroups)
+        private void InitializeSubgroupSize(List<ISubgroup> subgroups)
         {
             const int minSubgroupSize = 2;
             if (subgroups.Count < minSubgroupSize)
@@ -20,19 +20,24 @@
             CalculateSubgroupSize(subgroups);
         }
 
-        protected virtual void CalculateSubgroupSize(List<Subgroup> subgroups)
+        protected void CalculateSubgroupSize(List<ISubgroup> subgroups)
         {
-            var firstSize = subgroups[0].Data.Count;
-            if (subgroups.Any(s => s.Data.Count != firstSize))
+            var firstSize = subgroups[0].Size;
+            if (subgroups.Any(s => s.Size != firstSize))
                 firstSize = DynamicSubgroupSize;
             SubgroupSize = firstSize;
         }
 
-        public virtual void Update(List<Subgroup> subgroups)
+        public void Update(List<ISubgroup> subgroups)
         {
             CalculateSubgroupSize(subgroups);
             Calculate();
         }
 
+        public decimal CenterLine { get; set; }
+        public decimal UpperControlLine { get; set; }
+        public decimal LowerControlLine { get; set; }
+        public List<decimal> Points { get; set; }
+        public abstract void Calculate();
     }
 }

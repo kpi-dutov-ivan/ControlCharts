@@ -2,7 +2,7 @@
 {
     class Helpers
     {
-        public static double GetParameterValue(Dictionary<string, double> parameters, string key)
+        public static decimal GetParameterValue(Dictionary<string, decimal> parameters, string key)
         {
             if (!parameters.TryGetValue(key, out var value))
                 throw new ArgumentException(

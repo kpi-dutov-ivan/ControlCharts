@@ -1,9 +1,9 @@
 ﻿namespace Business.ControlCharts.Individual
 {
-    class XIndividualPreSpecified(List<double> individualValues, double mu0, double sigma0) : IndividualControlChart(individualValues)
+    class XIndividualPreSpecified(List<decimal> individualValues, decimal mu0, decimal sigma0) : IndividualControlChart(individualValues)
     {
-        public double Mu0 { get; private set; } = mu0;
-        public double Sigma0 { get; private set; } = sigma0;
+        public decimal Mu0 { get; private set; } = mu0;
+        public decimal Sigma0 { get; private set; } = sigma0;
 
         public override void Calculate()
         {

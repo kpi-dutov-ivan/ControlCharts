@@ -1,34 +1,34 @@
 ﻿namespace Business.ControlCharts.Mean;
 
-public class XBarChartCalculatedWithStandardDeviation(List<Subgroup> subgroups) : XrsChart(subgroups)
+public class XBarChartCalculatedWithStandardDeviation(List<ISubgroup> subgroups) : XrsChart(subgroups)
 {
-    private static readonly Dictionary<int, double> A3Coefficients =
+    private static readonly Dictionary<int, decimal> A3Coefficients =
         new()
         {
-            { 2, 2.659 },
-            { 3, 1.954 },
-            { 4, 1.628 },
-            { 5, 1.427 },
-            { 6, 1.287 },
-            { 7, 1.182 },
-            { 8, 1.099 },
-            { 9, 1.032 },
-            { 10, 0.975 },
-            { 11, 0.927 },
-            { 12, 0.886 },
-            { 13, 0.85 },
-            { 14, 0.817 },
-            { 15, 0.789 },
-            { 16, 0.763 },
-            { 17, 0.739 },
-            { 18, 0.718 },
-            { 19, 0.698 },
-            { 20, 0.68 },
-            { 21, 0.663 },
-            { 22, 0.647 },
-            { 23, 0.633 },
-            { 24, 0.619 },
-            { 25, 0.606 }
+            { 2, 2.659m },
+            { 3, 1.954m },
+            { 4, 1.628m },
+            { 5, 1.427m },
+            { 6, 1.287m },
+            { 7, 1.182m },
+            { 8, 1.099m },
+            { 9, 1.032m },
+            { 10, 0.975m },
+            { 11, 0.927m },
+            { 12, 0.886m },
+            { 13, 0.85m },
+            { 14, 0.817m },
+            { 15, 0.789m },
+            { 16, 0.763m },
+            { 17, 0.739m },
+            { 18, 0.718m },
+            { 19, 0.698m },
+            { 20, 0.68m },
+            { 21, 0.663m },
+            { 22, 0.647m },
+            { 23, 0.633m },
+            { 24, 0.619m },
+            { 25, 0.606m }
         };
 
     public override void Calculate()

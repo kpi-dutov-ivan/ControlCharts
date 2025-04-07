@@ -1,7 +1,7 @@
 ﻿namespace Business
 {
-    public class IndividualValue(double value)
+    public class IndividualValue(decimal value)
     {
-        public double Value { get; set; } = value;
+        public decimal Value { get; set; } = value;
     }
 }

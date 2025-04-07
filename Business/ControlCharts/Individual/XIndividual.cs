@@ -1,8 +1,8 @@
 ﻿namespace Business.ControlCharts.Individual
 {
-    public class XIndividual(List<double> individualValues) : IndividualControlChart(individualValues)
+    public class XIndividual(List<decimal> individualValues) : IndividualControlChart(individualValues)
     {
-        private const double Coefficient = 2.66;
+        private const decimal Coefficient = 2.66m;
 
         public override void Calculate()
         {

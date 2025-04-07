@@ -1,39 +1,46 @@
-﻿namespace Business.ControlCharts.Range;
+﻿using Business.ControlCharts.Individual;
 
-public class RChart(List<Subgroup> subgroups) : XrsChart(subgroups)
+namespace Business.ControlCharts.Range;
+
+public class RChart : IndividualControlChart
 {
-    private static readonly Dictionary<int, (double D3, double D4)>
+    public int SubgroupSize { get; }
+    public RChart(List<decimal> individualValues, int subgroupSize) : base(individualValues)
+    {
+        SubgroupSize = subgroupSize;
+    }
+
+    private static readonly Dictionary<int, (decimal D3, decimal D4)>
         Coefficients = new()
         {
-            { 2, (0, 3.267) },
-            { 3, (0, 2.575) },
-            { 4, (0, 2.282) },
-            { 5, (0, 2.114) },
-            { 6, (0, 2.004) },
-            { 7, (0.076, 1.924) },
-            { 8, (0.136, 1.864) },
-            { 9, (0.184, 1.816) },
-            { 10, (0.223, 1.777) },
-            { 11, (0.256, 1.744) },
-            { 12, (0.283, 1.717) },
-            { 13, (0.307, 1.693) },
-            { 14, (0.328, 1.672) },
-            { 15, (0.347, 1.653) },
-            { 16, (0.363, 1.637) },
-            { 17, (0.378, 1.622) },
-            { 18, (0.391, 1.609) },
-            { 19, (0.404, 1.596) },
-            { 20, (0.415, 1.585) },
-            { 21, (0.425, 1.575) },
-            { 22, (0.435, 1.567) },
-            { 23, (0.443, 1.557) },
-            { 24, (0.452, 1.548) },
-            { 25, (0.459, 1.541) }
+            { 2, (0, 3.267m) },
+            { 3, (0, 2.575m) },
+            { 4, (0, 2.282m) },
+            { 5, (0, 2.114m) },
+            { 6, (0, 2.004m) },
+            { 7, (0.076m, 1.924m) },
+            { 8, (0.136m, 1.864m) },
+            { 9, (0.184m, 1.816m) },
+            { 10, (0.223m, 1.777m) },
+            { 11, (0.256m, 1.744m) },
+            { 12, (0.283m, 1.717m) },
+            { 13, (0.307m, 1.693m) },
+            { 14, (0.328m, 1.672m) },
+            { 15, (0.347m, 1.653m) },
+            { 16, (0.363m, 1.637m) },
+            { 17, (0.378m, 1.622m) },
+            { 18, (0.391m, 1.609m) },
+            { 19, (0.404m, 1.596m) },
+            { 20, (0.415m, 1.585m) },
+            { 21, (0.425m, 1.575m) },
+            { 22, (0.435m, 1.567m) },
+            { 23, (0.443m, 1.557m) },
+            { 24, (0.452m, 1.548m) },
+            { 25, (0.459m, 1.541m) }
         };
 
     public override void Calculate()
     {
-        Points = [.. Subgroups.Select(s => s.Range)];
         var rangeMean = Points.Average();
         var (D3, D4) = Coefficients[SubgroupSize];
         CenterLine = rangeMean;

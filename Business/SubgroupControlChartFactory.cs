@@ -4,102 +4,142 @@ using Business.ControlCharts.Mean;
 using Business.ControlCharts.Range;
 using Business.ControlCharts.StandardDeviation;
 
-namespace Business;
-
-public interface IControlChartFactory
+namespace Business
 {
-    public ControlChart CreateControlChart(ControlChartType chartType,
-        Dictionary<string, double> parameters);
-}
-
-public class SubgroupControlChartFactory(List<Subgroup> subgroups) : IControlChartFactory
-{
-
-    private readonly List<Subgroup> _subgroups = subgroups;
-
-    public ControlChart CreateControlChart(ControlChartType chartType,
-        Dictionary<string, double> parameters)
+    public interface IControlChartFactory
     {
-        ControlChart chart = chartType switch
+        IControlChart CreateControlChart(ControlChartType chartType,
+            Dictionary<string, decimal> parameters);
+    }
+
+    public class SubgroupControlChartFactory(List<ISubgroup> subgroups) : IControlChartFactory
+    {
+
+        private readonly List<ISubgroup> _subgroups = subgroups;
+
+        public IControlChart CreateControlChart(ControlChartType chartType,
+            Dictionary<string, decimal> parameters)
         {
-            ControlChartType.MeanRange => new XBarChartCalculatedWithRange(_subgroups),
-            ControlChartType.MeanStandardDeviation => new XBarChartCalculatedWithStandardDeviation(_subgroups),
-            ControlChartType.Range => new RChart(_subgroups),
-            ControlChartType.StandardDeviation => new SChart(_subgroups),
-            ControlChartType.MovingRange => new RMChart(_subgroups),
-            ControlChartType.Median => throw new NotImplementedException(),
-            ControlChartType.ProportionDefective => throw new NotImplementedException(),
-            ControlChartType.NumberDefective => throw new NotImplementedException(),
-            ControlChartType.NumberDefects => throw new NotImplementedException(),
-            ControlChartType.DefectsPerUnit => throw new NotImplementedException(),
-            ControlChartType.MeanPreSpecified => CreateMeanPreSpecifiedChart(_subgroups, parameters),
-            ControlChartType.RangePreSpecified => CreateRangePreSpecifiedChart(_subgroups, parameters),
-            ControlChartType.StandardDeviationPreSpecified => CreateStandardDeviationPreSpecifiedChart(_subgroups,
-                parameters),
-            ControlChartType.MovingRangePreSpecified => CreateMovingRangePreSpecified(_subgroups, parameters),
-            ControlChartType.ProportionDefectivePreSpecified => throw new NotImplementedException(),
-            ControlChartType.NumberDefectivePreSpecified => throw new NotImplementedException(),
-            ControlChartType.NumberDefectsPreSpecified => throw new NotImplementedException(),
-            ControlChartType.DefectsPerUnitPreSpecified => throw new NotImplementedException(),
-            _ => throw new ArgumentOutOfRangeException(nameof(chartType), chartType, null)
-        };
+            IControlChart chart;
+            switch (chartType)
+            {
+                case ControlChartType.MeanRange:
+                    chart = new XBarChartCalculatedWithRange(_subgroups);
+                    break;
+                case ControlChartType.MeanStandardDeviation:
+                    chart = new XBarChartCalculatedWithStandardDeviation(_subgroups);
+                    break;
+                case ControlChartType.StandardDeviation:
+                    chart = new SChart(_subgroups);
+                    break;
+                case ControlChartType.Median:
+                case ControlChartType.ProportionDefective:
+                case ControlChartType.NumberDefective:
+                case ControlChartType.NumberDefects:
+                case ControlChartType.DefectsPerUnit:
+                    throw new NotImplementedException();
+                case ControlChartType.MeanPreSpecified:
+                    chart = CreateMeanPreSpecifiedChart(_subgroups, parameters);
+                    break;
+                case ControlChartType.RangePreSpecified:
+                    chart = CreateRangePreSpecifiedChart(_subgroups, parameters);
+                    break;
+                case ControlChartType.StandardDeviationPreSpecified:
+                    chart = CreateStandardDeviationPreSpecifiedChart(_subgroups, parameters);
+                    break;
+                case ControlChartType.ProportionDefectivePreSpecified:
+                case ControlChartType.NumberDefectivePreSpecified:
+                case ControlChartType.NumberDefectsPreSpecified:
+                case ControlChartType.DefectsPerUnitPreSpecified:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(chartType), chartType, null);
+            }
 
-        chart.Calculate();
-        return chart;
-    }
+            chart.Calculate();
+            return chart;
+        }
 
-    private static RMChartPreSpecified CreateMovingRangePreSpecified(List<Subgroup> subgroups, Dictionary<string, double> parameters)
-    {
-        var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
-        return new(subgroups, sigma0);
-    }
-
-    private static XBarChartPreSpecified CreateMeanPreSpecifiedChart(List<Subgroup> subgroups,
-        Dictionary<string, double> parameters)
-    {
-        var mu0 = Helpers.GetParameterValue(parameters, "mu0");
-        var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
-
-        return new(subgroups, mu0, sigma0);
-    }
-
-    private static RChartPreSpecified CreateRangePreSpecifiedChart(List<Subgroup> subgroups,
-        Dictionary<string, double> parameters)
-    {
-        var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
-        return new(subgroups, sigma0);
-    }
-
-    private static SChartPreSpecified CreateStandardDeviationPreSpecifiedChart(List<Subgroup> subgroups,
-        Dictionary<string, double> parameters)
-    {
-        var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
-        return new(subgroups, sigma0);
-    }
-}
-
-public class IndividualControlChartsFactory(List<double> individualValues) : IControlChartFactory
-{
-    private readonly List<double> _individualValues = individualValues;
-    public ControlChart CreateControlChart(ControlChartType chartType, Dictionary<string, double> parameters)
-    {
-        ControlChart chart = chartType switch
+        private static XBarChartPreSpecified CreateMeanPreSpecifiedChart(List<ISubgroup> subgroups,
+            Dictionary<string, decimal> parameters)
         {
-            ControlChartType.Individual => new XIndividual(_individualValues),
-            ControlChartType.IndividualPreSpecified => CreateIndividualPreSpecifiedChart(_individualValues, parameters),
-            _ => throw new ArgumentException()
-        };
+            var mu0 = Helpers.GetParameterValue(parameters, "mu0");
+            var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
 
-        chart.Calculate();
+            return new XBarChartPreSpecified(subgroups, mu0, sigma0);
+        }
 
-        return chart;
+        private static RChartPreSpecified CreateRangePreSpecifiedChart(List<ISubgroup> subgroups,
+            Dictionary<string, decimal> parameters)
+        {
+            var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
+            return new RChartPreSpecified(subgroups, sigma0);
+        }
+
+        private static SChartPreSpecified CreateStandardDeviationPreSpecifiedChart(List<ISubgroup> subgroups,
+            Dictionary<string, decimal> parameters)
+        {
+            var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
+            return new SChartPreSpecified(subgroups, sigma0);
+        }
     }
 
-    private static XIndividualPreSpecified CreateIndividualPreSpecifiedChart(List<double> individualValues, Dictionary<string, double> parameters)
+    public class IndividualControlChartsFactory : IControlChartFactory
     {
-        var mu0 = Helpers.GetParameterValue(parameters, "mu0");
-        var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
-        return new(individualValues, mu0, sigma0);
-    }
+        private readonly List<decimal> _individualValues;
 
+        public IndividualControlChartsFactory(List<decimal> individualValues)
+        {
+            _individualValues = individualValues;
+        }
+
+        public IControlChart CreateControlChart(ControlChartType chartType, Dictionary<string, decimal> parameters)
+        {
+            IControlChart chart;
+            switch (chartType)
+            {
+                case ControlChartType.Range:
+                    chart = CreateRangeChart(_individualValues, parameters);
+                    break;
+                case ControlChartType.MovingRange:
+                    chart = new RMChart(_individualValues);
+                    break;
+                case ControlChartType.Individual:
+                    chart = new XIndividual(_individualValues);
+                    break;
+                case ControlChartType.IndividualPreSpecified:
+                    chart = CreateIndividualPreSpecifiedChart(_individualValues, parameters);
+                    break;
+                case ControlChartType.MovingRangePreSpecified:
+                    chart = CreateMovingRangePreSpecified(_individualValues, parameters);
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+
+            chart.Calculate();
+
+            return chart;
+        }
+
+        private RChart CreateRangeChart(List<decimal> _individualValues, Dictionary<string, decimal> parameters)
+        {
+            var subgroupSize = (int)Helpers.GetParameterValue(parameters, "subgroupSize");
+            return new RChart(_individualValues, subgroupSize);
+        }
+
+        private static RMChartPreSpecified CreateMovingRangePreSpecified(List<decimal> individualValues, Dictionary<string, decimal> parameters)
+        {
+            var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
+            return new RMChartPreSpecified(individualValues, sigma0);
+        }
+
+        private static XIndividualPreSpecified CreateIndividualPreSpecifiedChart(List<decimal> individualValues, Dictionary<string, decimal> parameters)
+        {
+            var mu0 = Helpers.GetParameterValue(parameters, "mu0");
+            var sigma0 = Helpers.GetParameterValue(parameters, "sigma0");
+            return new XIndividualPreSpecified(individualValues, mu0, sigma0);
+        }
+
+    }
 }
