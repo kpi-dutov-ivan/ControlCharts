@@ -67,7 +67,7 @@ namespace Business
         {
             var mean = Mean;
             var sum = _data.Sum(value => (value - mean) * (value - mean));
-            return Math.Sqrt(sum / _data.Count);
+            return Decimal.Sqrt(sum / _data.Count);
         }
 
         private decimal CalculateRange() => _data.Max() - _data.Min();

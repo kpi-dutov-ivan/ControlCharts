@@ -4,7 +4,7 @@
     {
         public RMChart(List<decimal> individualValues) : base(individualValues)
         {
-            Points = [.. individualValues.Zip(individualValues.Skip(1), (a, b) => a - b)];
+            Points = [.. individualValues.Zip(individualValues.Skip(1), (a, b) => Decimal.Abs(a - b))];
         }
 
         private const decimal Coefficient = 3.267m;
