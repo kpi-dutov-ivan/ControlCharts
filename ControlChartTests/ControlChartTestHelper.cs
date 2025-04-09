@@ -10,12 +10,12 @@ namespace Tests
         {
             if (precision <= 0)
                 throw new InvalidOperationException("Cannot run test with non-positive precision");
-
+            
+            CheckEqualPoints(controlChartTestCase, chart, precision);
             Assert.Equal(controlChartTestCase.CenterLine, chart.CenterLine, precision);
             Assert.Equal(controlChartTestCase.UpperControlLine, chart.UpperControlLine, precision);
             Assert.Equal(controlChartTestCase.LowerControlLine, chart.LowerControlLine, precision);
 
-            CheckEqualPoints(controlChartTestCase, chart, precision);
         }
 
         private static void CheckEqualPoints(ControlChartTestCase controlChartTestCase, IControlChart chart,

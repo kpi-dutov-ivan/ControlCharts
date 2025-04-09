@@ -2,7 +2,7 @@
 
 namespace Tests
 {
-    public class IndividualControlChartTestCase : ControlChartTestCase
+    public abstract class IndividualControlChartTestCase : ControlChartTestCase
     {
         public IndividualControlChartTestCase(List<decimal> points,
             decimal centerLine,

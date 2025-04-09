@@ -54,14 +54,19 @@
     <ItemGroup>
         <Compile Include="ControlChartTestCase.cs"/>
         <Compile Include="ControlChartTestHelper.cs"/>
+        <Compile Include="Math\PreciseValueTestCase.cs" />
+        <Compile Include="Math\PreciseValueTests.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="Shewhart\DummySubgroup.cs"/>
         <Compile Include="Shewhart\IndividualTestCase.cs"/>
         <Compile Include="Shewhart\Mean\XBarChartPreSpecified.cs"/>
         <Compile Include="Shewhart\Mean\XBarChartPreSpecifiedTestCase.cs"/>
+        <Compile Include="Shewhart\Mean\XBarChartTestCase.cs" />
         <Compile Include="Shewhart\Mean\XBarChartTests.cs"/>
         <Compile Include="Shewhart\Range\RChartTestCase.cs"/>
         <Compile Include="Shewhart\Range\RChartTests.cs"/>
+        <Compile Include="Shewhart\Range\RmChartTestCase.cs" />
+        <Compile Include="Shewhart\Range\RmChartTests.cs" />
         <Compile Include="Shewhart\StandardDeviation\SChartPreSpecifiedTests.cs" />
         <Compile Include="Shewhart\StandardDeviation\SChartPreSpecifiedTestCase.cs" />
         <Compile Include="Shewhart\SubgroupTestCase.cs"/>

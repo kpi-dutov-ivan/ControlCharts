@@ -17,12 +17,12 @@ namespace Tests
             ControlChartTestHelper.CheckChart(controlChartTestCase, chart);
         }
 
-        public static TheoryData<SubgroupControlChartTestCase> GetXBarValidTestData()
+        public static TheoryData<XBarChartTestCase> GetXBarValidTestData()
         {
-            return new TheoryData<SubgroupControlChartTestCase>
+            return new TheoryData<XBarChartTestCase>
             {
                 // SOURCE: ISO 7870-2:2013 p.25-27
-                new SubgroupControlChartTestCase(
+                new XBarChartTestCase(
                     new List<ISubgroup>
                     {
                         new DummySubgroup(14.0764m, 0.01m, 5),
@@ -85,7 +85,7 @@ namespace Tests
                 ),
                 
                 // SOURCE: ISO 7870-2:2013 p.27-28
-                new SubgroupControlChartTestCase(
+                new XBarChartTestCase(
                     new List<ISubgroup>
                     {
                         new DummySubgroup(14.0764m, 0.01m, 5),
