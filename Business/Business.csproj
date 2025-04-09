@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ControlCharts\Defects\" />
-    <Folder Include="Data\" />
+    <Folder Include="ControlCharts\Shewhart\Defects\" />
   </ItemGroup>
 
 </Project>

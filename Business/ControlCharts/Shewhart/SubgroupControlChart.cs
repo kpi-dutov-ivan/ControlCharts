@@ -20,7 +20,7 @@
             CalculateSubgroupSize(subgroups);
         }
 
-        protected void CalculateSubgroupSize(List<ISubgroup> subgroups)
+        private void CalculateSubgroupSize(List<ISubgroup> subgroups)
         {
             var firstSize = subgroups[0].Size;
             if (subgroups.Any(s => s.Size != firstSize))
