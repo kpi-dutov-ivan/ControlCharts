@@ -2,8 +2,8 @@
 
 namespace Business.ChartFactory;
 
-public interface IControlChartFactory
+public interface IControlChartFactory<T> where T : IValue<T>
 {
-    IControlChart CreateControlChart(ControlChartType chartType,
+    IControlChart<T> CreateControlChart(ControlChartType chartType,
         Dictionary<string, decimal> parameters);
 }

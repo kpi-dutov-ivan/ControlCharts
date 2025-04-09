@@ -1,9 +1,11 @@
-﻿namespace Business;
+﻿using System.Globalization;
 
-public class PreciseValue : IValue, IPreciseValue
+namespace Business;
+
+public class PreciseValue : IPreciseValue<PreciseValue>
 {
     public string RawValue { get; }
-    public decimal Value { get; }
+    public decimal NumberValue { get; }
     public int DecimalPlaces { get; }
     public int SignificantDigits { get; }
     
@@ -18,7 +20,7 @@ public class PreciseValue : IValue, IPreciseValue
         }
 
         RawValue = rawValue;
-        Value = value;
+        NumberValue = value;
         DecimalPlaces = decimalPlaces ?? DetermineDecimalPlaces(rawValue);
         SignificantDigits = DetermineSignificantFigures(rawValue);
     }
@@ -26,7 +28,7 @@ public class PreciseValue : IValue, IPreciseValue
     private PreciseValue(decimal value, int decimalPlaces)
     {
         RawValue = value.ToString($"F{decimalPlaces}");
-        Value = value;
+        NumberValue = value;
         DecimalPlaces = decimalPlaces;
         SignificantDigits = DetermineSignificantFigures(RawValue);
     }
@@ -117,33 +119,84 @@ public class PreciseValue : IValue, IPreciseValue
     
     public static implicit operator decimal(PreciseValue preciseValue)
     {
-        return preciseValue.Value;
+        return preciseValue.NumberValue;
     }
 
-    public static PreciseValue operator +(PreciseValue left, PreciseValue right)
+    public PreciseValue Add(PreciseValue right)
     {
+        var left = this;
         var leastPrecision = Math.Min(left.DecimalPlaces, right.DecimalPlaces);
-        return new PreciseValue(left.Value + right.Value, leastPrecision);
+        return new PreciseValue(left.NumberValue + right.NumberValue, leastPrecision);
     }
     
-    public static PreciseValue operator -(PreciseValue left, PreciseValue right)
+    public PreciseValue Subtract(PreciseValue right)
     {
+        var left = this;
         var leastPrecision = Math.Min(left.DecimalPlaces, right.DecimalPlaces);
-        return new PreciseValue(left.Value - right.Value, leastPrecision);
+        return new PreciseValue(left.NumberValue - right.NumberValue, leastPrecision);
     }
     
-    public static PreciseValue operator *(PreciseValue left, PreciseValue right)
+    public PreciseValue Multiply(PreciseValue right)
     {
+        var left = this;
         var leastSignificantDigits = Math.Min(left.SignificantDigits, right.SignificantDigits);
-        return new PreciseValue(left.Value * right.Value, leastSignificantDigits);
+        return new PreciseValue(left.NumberValue * right.NumberValue, leastSignificantDigits);
     }
-    
-    public static PreciseValue operator /(PreciseValue left, PreciseValue right)
+
+    public PreciseValue Multiply(decimal value)
     {
-        if (right.Value == 0)
+        throw new NotImplementedException();
+    }
+
+    public PreciseValue Divide(PreciseValue right)
+    {
+        if (right.NumberValue == 0)
             throw new DivideByZeroException("Cannot divide by zero.");
-        
+
+        var left = this;
         var leastSignificantDigits = Math.Min(left.SignificantDigits, right.SignificantDigits);
-        return new PreciseValue(left.Value / right.Value, leastSignificantDigits);
+        return new PreciseValue(left.NumberValue / right.NumberValue, leastSignificantDigits);
+    }
+
+    public PreciseValue Divide(decimal value)
+    {
+        throw new NotImplementedException();
+    }
+
+    // TODO: Test
+    public PreciseValue Sqrt()
+    {
+        var sqrtVal = (decimal)Math.Sqrt((double)this.NumberValue);
+
+        // Round to the same number of significant digits
+        var rounded = RoundToSignificantFigures(sqrtVal, this.SignificantDigits);
+
+        // Reconstruct raw string to preserve significance
+        var raw = FormatWithSignificantDigits(rounded, this.SignificantDigits);
+
+        return new PreciseValue(raw);
+    }
+    
+    private static decimal RoundToSignificantFigures(decimal num, int n)
+    {
+        if (num == 0)
+            return 0;
+
+        var d = Math.Ceiling(Math.Log10((double)Math.Abs(num)));
+        var power = n - (int)d;
+
+        var magnitude = (decimal)Math.Pow(10, power);
+        var shifted = Math.Round(num * magnitude);
+        return shifted / magnitude;
+    }
+
+    private static string FormatWithSignificantDigits(decimal num, int sigDigits)
+    {
+        return num.ToString("G" + sigDigits, CultureInfo.InvariantCulture);
+    }
+
+    public PreciseValue Abs()
+    {
+        throw new NotImplementedException();
     }
 }

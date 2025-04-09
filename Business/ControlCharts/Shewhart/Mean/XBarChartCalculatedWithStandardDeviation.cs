@@ -1,6 +1,6 @@
 ﻿namespace Business.ControlCharts.Mean;
 
-public class XBarChartCalculatedWithStandardDeviation(List<ISubgroup> subgroups) : XrsChart(subgroups)
+public class XBarChartCalculatedWithStandardDeviation<T>(List<ISubgroup<T>> subgroups) : XrsChart<T>(subgroups) where T: IValue<T>
 {
     private static readonly Dictionary<int, decimal> A3Coefficients =
         new()
@@ -34,11 +34,11 @@ public class XBarChartCalculatedWithStandardDeviation(List<ISubgroup> subgroups)
     public override void Calculate()
     {
         Points = [.. Subgroups.Select(s => s.Mean)];
-        var subgroupMean = Subgroups.Average(s => s.Mean);
-        var standardDeviationMean = Subgroups.Average(s => s.StandardDeviation);
-        var threeSigma = A3Coefficients[SubgroupSize] * standardDeviationMean;
-        LowerControlLine = subgroupMean - threeSigma;
+        var subgroupMean = ValueHelpers<T>.CalculateAverage(Points);
+        var standardDeviationMean = ValueHelpers<T>.CalculateSubgroupAverage(Subgroups, s => s.StandardDeviation);
+        var threeSigma = standardDeviationMean.Multiply(A3Coefficients[SubgroupSize]);
+        LowerControlLine = subgroupMean.Subtract(threeSigma);
         CenterLine = subgroupMean;
-        UpperControlLine = subgroupMean + threeSigma;
+        UpperControlLine = subgroupMean.Add(threeSigma);
     }
 }

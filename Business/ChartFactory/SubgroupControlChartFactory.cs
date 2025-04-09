@@ -8,25 +8,25 @@ using Business.ControlCharts.StandardDeviation;
 namespace Business
 {
 
-    public class SubgroupControlChartFactory(List<ISubgroup> subgroups) : IControlChartFactory
+    public class SubgroupControlChartFactory<T>(List<ISubgroup<T>> subgroups) : IControlChartFactory<T> where T : IValue<T>
     {
 
-        private readonly List<ISubgroup> _subgroups = subgroups;
+        private readonly List<ISubgroup<T>> _subgroups = subgroups;
 
-        public IControlChart CreateControlChart(ControlChartType chartType,
+        public IControlChart<T> CreateControlChart(ControlChartType chartType,
             Dictionary<string, decimal> parameters)
         {
-            IControlChart chart;
+            IControlChart<T> chart;
             switch (chartType)
             {
                 case ControlChartType.MeanRange:
-                    chart = new XBarChartCalculatedWithRange(_subgroups);
+                    chart = new XBarChartCalculatedWithRange<T>(_subgroups);
                     break;
                 case ControlChartType.MeanStandardDeviation:
-                    chart = new XBarChartCalculatedWithStandardDeviation(_subgroups);
+                    chart = new XBarChartCalculatedWithStandardDeviation<T>(_subgroups);
                     break;
                 case ControlChartType.StandardDeviation:
-                    chart = new SChart(_subgroups);
+                    chart = new SChart<T>(_subgroups);
                     break;
                 case ControlChartType.Median:
                 case ControlChartType.ProportionDefective:
@@ -53,20 +53,20 @@ namespace Business
             return chart;
         }
 
-        private static XBarChartPreSpecified CreateMeanPreSpecifiedChart(List<ISubgroup> subgroups,
+        private static XBarChartPreSpecified<T> CreateMeanPreSpecifiedChart(List<ISubgroup<T>> subgroups,
             Dictionary<string, decimal> parameters)
         {
-            var mu0 = ControlChartFactoryHelpers.GetParameterValue(parameters, "mu0");
-            var sigma0 = ControlChartFactoryHelpers.GetParameterValue(parameters, "sigma0");
+            var mu0 = ControlChartFactoryHelpers<T>.GetParameterValue(parameters, "mu0");
+            var sigma0 = ControlChartFactoryHelpers<T>.GetParameterValue(parameters, "sigma0");
 
-            return new XBarChartPreSpecified(subgroups, mu0, sigma0);
+            return new XBarChartPreSpecified<T>(subgroups, mu0, sigma0);
         }
 
-        private static RChartPreSpecified CreateRangePreSpecifiedChart(List<ISubgroup> subgroups,
+        private static RChartPreSpecified<T> CreateRangePreSpecifiedChart(List<ISubgroup<T>> subgroups,
             Dictionary<string, decimal> parameters)
         {
-            var sigma0 = ControlChartFactoryHelpers.GetParameterValue(parameters, "sigma0");
-            return new RChartPreSpecified(subgroups, sigma0);
+            var sigma0 = ControlChartFactoryHelpers<T>.GetParameterValue(parameters, "sigma0");
+            return new RChartPreSpecified<T>(subgroups, sigma0);
         }
     }
 

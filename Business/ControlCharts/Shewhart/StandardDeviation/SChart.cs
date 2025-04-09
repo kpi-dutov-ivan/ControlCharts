@@ -1,6 +1,6 @@
 ﻿namespace Business.ControlCharts.StandardDeviation;
 
-public class SChart(List<ISubgroup> subgroups) : XrsChart(subgroups)
+public class SChart<T>(List<ISubgroup<T>> subgroups) : XrsChart<T>(subgroups) where T: IValue<T>
 {
     private static readonly Dictionary<int, (decimal B3, decimal B4)>
         Coefficients = new()
@@ -34,10 +34,11 @@ public class SChart(List<ISubgroup> subgroups) : XrsChart(subgroups)
     public override void Calculate()
     {
         Points = [.. Subgroups.Select(s => s.StandardDeviation)];
-        var standardDeviationMean = Points.Average();
+        // TODO: Average can be put in the base class
+        var standardDeviationMean = ValueHelpers<T>.CalculateAverage(Points);
         var (B3, B4) = Coefficients[SubgroupSize];
         CenterLine = standardDeviationMean;
-        LowerControlLine = B3 * standardDeviationMean;
-        UpperControlLine = B4 * standardDeviationMean;
+        LowerControlLine = standardDeviationMean.Multiply(B3);
+        UpperControlLine = standardDeviationMean.Multiply(B4);
     }
 }

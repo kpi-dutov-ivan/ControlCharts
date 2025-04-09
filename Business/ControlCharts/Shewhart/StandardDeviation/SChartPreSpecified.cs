@@ -3,9 +3,9 @@ using Business.ControlCharts.Shewhart;
 
 namespace Business.ControlCharts.StandardDeviation;
 
-public class SChartPreSpecified : IndividualControlChart, ISubgroupSized
+public class SChartPreSpecified<T> : IndividualControlChart<T>, ISubgroupSized where T : IValue<T>
 {
-    public SChartPreSpecified(List<decimal> individualValues, decimal sigma0, int subgroupSize) : base(individualValues)
+    public SChartPreSpecified(List<T> individualValues, T sigma0, int subgroupSize) : base(individualValues)
     {
         Sigma0 = sigma0;
         SubgroupSize = subgroupSize;
@@ -41,14 +41,14 @@ public class SChartPreSpecified : IndividualControlChart, ISubgroupSized
         { 25, (0.559m, 1.42m, 0.9896m) }
     };
 
-    public decimal Sigma0 { get; }
+    public T Sigma0 { get; }
 
     public override void Calculate()
     {
         var (B5, B6, c4) = Coefficients[SubgroupSize];
-        CenterLine = c4 * Sigma0;
-        LowerControlLine = B5 * Sigma0;
-        UpperControlLine = B6 * Sigma0;
+        CenterLine = Sigma0.Multiply(c4);
+        LowerControlLine = Sigma0.Multiply(B5);
+        UpperControlLine = Sigma0.Multiply(B6);
     }
 
 }

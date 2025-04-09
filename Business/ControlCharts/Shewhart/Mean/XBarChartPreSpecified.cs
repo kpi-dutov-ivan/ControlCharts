@@ -1,6 +1,6 @@
 ﻿namespace Business.ControlCharts.Mean
 {
-    public class XBarChartPreSpecified(List<ISubgroup> subgroups, decimal mu0, decimal sigma0) : XrsChart(subgroups)
+    public class XBarChartPreSpecified<T>(List<ISubgroup<T>> subgroups, T mu0, T sigma0) : XrsChart<T>(subgroups) where T: IValue<T>
     {
         private static readonly Dictionary<int, decimal> ACoefficients =
             new()
@@ -31,19 +31,19 @@
                 { 25, 0.6m }
             };
 
-        public decimal Mu0 { get; } = mu0;
+        public T Mu0 { get; } = mu0;
 
-        public decimal Sigma0 { get; } = sigma0;
+        public T Sigma0 { get; } = sigma0;
 
         // TODO: Show warnings on big values, suggest any errors?
 
         public override void Calculate()
         {
             Points = [.. Subgroups.Select(s => s.Mean)];
-            var threeSigma = ACoefficients[SubgroupSize] * Sigma0;
+            var threeSigma = Sigma0.Multiply(ACoefficients[SubgroupSize]);
             CenterLine = Mu0;
-            LowerControlLine = CenterLine - threeSigma;
-            UpperControlLine = CenterLine + threeSigma;
+            LowerControlLine = CenterLine.Subtract(threeSigma);
+            UpperControlLine = CenterLine.Add(threeSigma);
         }
     }
 }

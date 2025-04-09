@@ -1,8 +1,8 @@
 ﻿namespace Business.ControlCharts;
 
-public abstract class XrsChart : SubgroupControlChart
+public abstract class XrsChart<T> : SubgroupControlChart<T> where T: IValue<T>
 {
-    protected XrsChart(List<ISubgroup> subgroups) : base(subgroups)
+    protected XrsChart(List<ISubgroup<T>> subgroups) : base(subgroups)
     {
         const int maxSubgroupSize = 25;
         var subgroupSize = subgroups[0].Size;

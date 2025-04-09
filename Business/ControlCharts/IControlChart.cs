@@ -1,11 +1,11 @@
 ﻿namespace Business.ControlCharts
 {
-    public interface IControlChart
+    public interface IControlChart<T> where T : IValue<T>
     {
-        public decimal CenterLine { get; }
-        public decimal UpperControlLine { get; }
-        public decimal LowerControlLine { get; }
-        public List<decimal> Points { get; }
+        public T CenterLine { get; }
+        public T UpperControlLine { get; }
+        public T LowerControlLine { get; }
+        public List<T> Points { get; }
 
         public void Calculate();
     }

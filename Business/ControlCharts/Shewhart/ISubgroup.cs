@@ -1,11 +1,11 @@
 ﻿namespace Business.ControlCharts
 {
-    public interface ISubgroup
+    public interface ISubgroup<T> where T : IValue<T>
     {
-        public decimal Mean { get; }
-        public decimal Median { get; }
-        public decimal StandardDeviation { get; }
-        public decimal Range { get; }
+        public T Mean { get; }
+        public T Median { get; }
+        public T StandardDeviation { get; }
+        public T Range { get; }
         public int Size { get; }
     }
 }

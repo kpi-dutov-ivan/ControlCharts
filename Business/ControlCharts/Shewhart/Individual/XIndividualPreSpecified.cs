@@ -1,17 +1,17 @@
 ﻿namespace Business.ControlCharts.Individual
 {
-    class XIndividualPreSpecified(List<decimal> individualValues, decimal mu0, decimal sigma0) : IndividualControlChart(individualValues)
+    class XIndividualPreSpecified<T>(List<T> individualValues, T mu0, T sigma0) : IndividualControlChart<T>(individualValues) where T: IValue<T>
     {
-        public decimal Mu0 { get; private set; } = mu0;
-        public decimal Sigma0 { get; private set; } = sigma0;
+        public T Mu0 { get; private set; } = mu0;
+        public T Sigma0 { get; private set; } = sigma0;
 
         public override void Calculate()
         {
-            var threeSigma = 3 * Sigma0;
+            // TODO: How to ensure preservation of precision?
+            var threeSigma = Sigma0.Multiply(3m);
             CenterLine = Mu0;
-            LowerControlLine = CenterLine - threeSigma;
-            UpperControlLine = CenterLine + threeSigma;
+            LowerControlLine = CenterLine.Subtract(threeSigma);
+            UpperControlLine = CenterLine.Add(threeSigma);
         }
-
     }
 }

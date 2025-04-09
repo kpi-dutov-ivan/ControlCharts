@@ -1,6 +1,6 @@
 ﻿namespace Business.ControlCharts.Defective
 {
-    public class PChart : DefectiveControlChart
+    public class PChart<T> : DefectiveControlChart<T> where T: IValue<T>
     {
         // TODO: Use of that for variable size
         private int _overallCount;
@@ -13,11 +13,12 @@
 
         public override void Calculate()
         {
-            var defectiveProportionAverage = Defectives.Average(d => (decimal)d.DefectiveCount) / _overallCount;
-            var threeSigma = Decimal.Sqrt(defectiveProportionAverage * (1.0m - defectiveProportionAverage) / _overallCount);
-            CenterLine = defectiveProportionAverage;
-            LowerControlLine = CenterLine - threeSigma;
-            UpperControlLine = CenterLine + threeSigma;
+            throw new NotImplementedException();
+            // var defectiveProportionAverage = Defectives.Average(d => (T)d.DefectiveCount).Divide _overallCount;
+            // var threeSigma = Decimal.Sqrt(defectiveProportionAverage * (1.0m - defectiveProportionAverage) / _overallCount);
+            // CenterLine = defectiveProportionAverage;
+            // LowerControlLine = CenterLine - threeSigma;
+            // UpperControlLine = CenterLine + threeSigma;
         }
     }
 }

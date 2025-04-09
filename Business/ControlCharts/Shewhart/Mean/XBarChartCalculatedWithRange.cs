@@ -1,7 +1,7 @@
 ﻿namespace Business.ControlCharts.Mean;
 
 //TODO: In presentation layer show some hint on this being not good for something more than 10 or whatever.
-public class XBarChartCalculatedWithRange(List<ISubgroup> subgroups) : XrsChart(subgroups)
+public class XBarChartCalculatedWithRange<T>(List<ISubgroup<T>> subgroups) : XrsChart<T>(subgroups) where T: IValue<T>
 {
     private static readonly Dictionary<int, decimal> A2Coefficients =
         new()
@@ -35,13 +35,13 @@ public class XBarChartCalculatedWithRange(List<ISubgroup> subgroups) : XrsChart(
     public override void Calculate()
     {
         Points = [.. Subgroups.Select(s => s.Mean)];
-        var subgroupAverage = Points.Average();
-        var rangeAverage = Subgroups.Average(s => s.Range);
+        var subgroupAverage = ValueHelpers<T>.CalculateAverage(Points);
+        var rangeAverage = ValueHelpers<T>.CalculateSubgroupAverage(Subgroups, s => s.Range);
         // TODO: Exception handling
-        var threeSigma = A2Coefficients[SubgroupSize] * rangeAverage;
+        var threeSigma = rangeAverage.Multiply(A2Coefficients[SubgroupSize]);
 
-        LowerControlLine = subgroupAverage - threeSigma;
+        LowerControlLine = subgroupAverage.Subtract(threeSigma);
         CenterLine = subgroupAverage;
-        UpperControlLine = subgroupAverage + threeSigma;
+        UpperControlLine = subgroupAverage.Add(threeSigma);
     }
 }

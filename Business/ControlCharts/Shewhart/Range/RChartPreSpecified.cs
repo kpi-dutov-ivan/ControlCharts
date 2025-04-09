@@ -1,6 +1,6 @@
 ﻿namespace Business.ControlCharts.Range;
 
-public class RChartPreSpecified(List<ISubgroup> subgroups, decimal sigma0) : XrsChart(subgroups)
+public class RChartPreSpecified<T>(List<ISubgroup<T>> subgroups, T sigma0) : XrsChart<T>(subgroups) where T : IValue<T>
 {
     private static readonly Dictionary<int, (decimal D1, decimal D2, decimal d2)>
         Coefficients = new()
@@ -31,14 +31,14 @@ public class RChartPreSpecified(List<ISubgroup> subgroups, decimal sigma0) : Xrs
             { 25, (1.805m, 6.056m, 3.931m) }
         };
 
-    public decimal Sigma0 { get; } = sigma0;
+    public T Sigma0 { get; } = sigma0;
 
     public override void Calculate()
     {
         Points = [.. Subgroups.Select(s => s.Range)];
         var (D1, D2, d2) = Coefficients[SubgroupSize];
-        CenterLine = d2 * Sigma0;
-        LowerControlLine = D1 * Sigma0;
-        UpperControlLine = D2 * Sigma0;
+        CenterLine = Sigma0;
+        LowerControlLine = Sigma0.Multiply(D1);
+        UpperControlLine = Sigma0.Multiply(D2);
     }
 }

@@ -85,7 +85,7 @@ namespace Tests.Math
         private static void TestPreciseValue(PreciseValueTestCase testCase, PreciseValue preciseValue)
         {
             Assert.Equal(testCase.RawValue, preciseValue.RawValue);
-            Assert.Equal(testCase.Value, preciseValue.Value, testCase.DecimalPlaces);
+            Assert.Equal(testCase.NumberValue, preciseValue.NumberValue, testCase.DecimalPlaces);
             Assert.Equal(testCase.DecimalPlaces, preciseValue.DecimalPlaces);
             Assert.Equal(testCase.SignificantDigits, preciseValue.SignificantDigits);
         }

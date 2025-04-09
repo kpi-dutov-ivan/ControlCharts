@@ -5,28 +5,28 @@ using Business.ControlCharts.StandardDeviation;
 
 namespace Business.ChartFactory;
 
-public class IndividualControlChartsFactory : IControlChartFactory
+public class IndividualControlChartsFactory<T> : IControlChartFactory<T> where T : IValue<T>
     {
-        private readonly List<decimal> _individualValues;
+        private readonly List<T> _individualValues;
 
-        public IndividualControlChartsFactory(List<decimal> individualValues)
+        public IndividualControlChartsFactory(List<T> individualValues)
         {
             _individualValues = individualValues;
         }
 
-        public IControlChart CreateControlChart(ControlChartType chartType, Dictionary<string, decimal> parameters)
+        public IControlChart<T> CreateControlChart(ControlChartType chartType, Dictionary<string, decimal> parameters)
         {
-            IControlChart chart;
+            IControlChart<T> chart;
             switch (chartType)
             {
                 case ControlChartType.Range:
                     chart = CreateRangeChart(_individualValues, parameters);
                     break;
                 case ControlChartType.MovingRange:
-                    chart = new RMChart(_individualValues);
+                    chart = new RMChart<T>(_individualValues);
                     break;
                 case ControlChartType.Individual:
-                    chart = new XIndividual(_individualValues);
+                    chart = new XIndividual<T>(_individualValues);
                     break;
                 case ControlChartType.IndividualPreSpecified:
                     chart = CreateIndividualPreSpecifiedChart(_individualValues, parameters);
@@ -46,31 +46,30 @@ public class IndividualControlChartsFactory : IControlChartFactory
             return chart;
         }
 
-        private RChart CreateRangeChart(List<decimal> _individualValues, Dictionary<string, decimal> parameters)
+        private RChart<T> CreateRangeChart(List<T> _individualValues, Dictionary<string, decimal> parameters)
         {
-            var subgroupSize = (int)ControlChartFactoryHelpers.GetParameterValue(parameters, "subgroupSize");
-            return new RChart(_individualValues, subgroupSize);
+            var subgroupSize = ControlChartFactoryHelpers<T>.GetParameterValue(parameters, "subgroupSize");
+            return new RChart<T>(_individualValues, (int)subgroupSize.NumberValue);
         }
 
-        private static RMChartPreSpecified CreateMovingRangePreSpecified(List<decimal> individualValues, Dictionary<string, decimal> parameters)
+        private static RMChartPreSpecified<T> CreateMovingRangePreSpecified(List<T> individualValues, Dictionary<string, decimal> parameters)
         {
-            var sigma0 = ControlChartFactoryHelpers.GetParameterValue(parameters, "sigma0");
-            return new RMChartPreSpecified(individualValues, sigma0);
+            var sigma0 = ControlChartFactoryHelpers<T>.GetParameterValue(parameters, "sigma0");
+            return new RMChartPreSpecified<T>(individualValues, sigma0);
         }
 
-        private static XIndividualPreSpecified CreateIndividualPreSpecifiedChart(List<decimal> individualValues, Dictionary<string, decimal> parameters)
+        private static XIndividualPreSpecified<T> CreateIndividualPreSpecifiedChart(List<T> individualValues, Dictionary<string, decimal> parameters)
         {
-            var mu0 = ControlChartFactoryHelpers.GetParameterValue(parameters, "mu0");
-            var sigma0 = ControlChartFactoryHelpers.GetParameterValue(parameters, "sigma0");
-            return new XIndividualPreSpecified(individualValues, mu0, sigma0);
+            var mu0 = ControlChartFactoryHelpers<T>.GetParameterValue(parameters, "mu0");
+            var sigma0 = ControlChartFactoryHelpers<T>.GetParameterValue(parameters, "sigma0");
+            return new XIndividualPreSpecified<T>(individualValues, mu0, sigma0);
         }
         
-        private static SChartPreSpecified CreateStandardDeviationPreSpecifiedChart(List<decimal> individualValues,
+        private static SChartPreSpecified<T> CreateStandardDeviationPreSpecifiedChart(List<T> individualValues,
             Dictionary<string, decimal> parameters)
         {
-            var sigma0 = ControlChartFactoryHelpers.GetParameterValue(parameters, "sigma0");
-            var subgroupSize = (int)ControlChartFactoryHelpers.GetParameterValue(parameters, "subgroupSize");
-            return new SChartPreSpecified(individualValues, sigma0, subgroupSize);
+            var sigma0 = ControlChartFactoryHelpers<T>.GetParameterValue(parameters, "sigma0");
+            var subgroupSize = ControlChartFactoryHelpers<T>.GetParameterValue(parameters, "subgroupSize");
+            return new SChartPreSpecified<T>(individualValues, sigma0, (int)subgroupSize.NumberValue);
         }
-
     }

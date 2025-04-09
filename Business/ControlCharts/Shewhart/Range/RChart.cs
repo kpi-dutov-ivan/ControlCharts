@@ -3,10 +3,10 @@ using Business.ControlCharts.Shewhart;
 
 namespace Business.ControlCharts.Range;
 
-public class RChart : IndividualControlChart, ISubgroupSized
+public class RChart<T> : IndividualControlChart<T>, ISubgroupSized where T : IValue<T>
 {
     public int SubgroupSize { get; }
-    public RChart(List<decimal> individualValues, int subgroupSize) : base(individualValues)
+    public RChart(List<T> individualValues, int subgroupSize) : base(individualValues)
     {
         SubgroupSize = subgroupSize;
     }
@@ -42,10 +42,10 @@ public class RChart : IndividualControlChart, ISubgroupSized
 
     public override void Calculate()
     {
-        var rangeMean = Points.Average();
+        var rangeMean = ValueHelpers<T>.CalculateAverage(Points);
         var (D3, D4) = Coefficients[SubgroupSize];
         CenterLine = rangeMean;
-        LowerControlLine = D3 * rangeMean;
-        UpperControlLine = D4 * rangeMean;
+        LowerControlLine = rangeMean.Multiply(D3);
+        UpperControlLine = rangeMean.Multiply(D4);
     }
 }

@@ -1,9 +1,8 @@
 ﻿namespace Business;
 
-public interface IPreciseValue
+public interface IPreciseValue<T> : IValue<T> where T: IPreciseValue<T>
 {
     string RawValue { get; }
-    decimal Value { get; }
     int DecimalPlaces { get; }
     int SignificantDigits { get; }
 }
