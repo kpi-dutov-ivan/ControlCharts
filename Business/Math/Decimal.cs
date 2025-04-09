@@ -1,6 +1,6 @@
 ﻿namespace Business;
 
-public static class Math
+public static class Decimal
 {
     public static decimal Sqrt(decimal value)
     {
@@ -15,7 +15,7 @@ public static class Math
         while (iterations < maxIterations)
         {
             var next = .5m * (x + value / x);
-            if (Math.Abs(x - value) < tolerance)
+            if (Decimal.Abs(x - value) < tolerance)
                 return next;
             x = next;
             iterations++;
