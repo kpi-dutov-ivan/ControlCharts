@@ -4,9 +4,9 @@ using Business.ControlCharts;
 
 namespace Tests
 {
-    public abstract class TestCase : IControlChart
+    public abstract class ControlChartTestCase : IControlChart
     {
-        public TestCase(List<decimal> points, decimal centerLine, decimal upperControlLine, decimal lowerControlLine)
+        public ControlChartTestCase(List<decimal> points, decimal centerLine, decimal upperControlLine, decimal lowerControlLine)
         {
             CenterLine = centerLine;
             UpperControlLine = upperControlLine;

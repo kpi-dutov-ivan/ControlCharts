@@ -62,6 +62,8 @@
         <Compile Include="Shewhart\Mean\XBarChartTests.cs"/>
         <Compile Include="Shewhart\Range\RChartTestCase.cs"/>
         <Compile Include="Shewhart\Range\RChartTests.cs"/>
+        <Compile Include="Shewhart\StandardDeviation\SChartPreSpecifiedTests.cs" />
+        <Compile Include="Shewhart\StandardDeviation\SChartPreSpecifiedTestCase.cs" />
         <Compile Include="Shewhart\SubgroupTestCase.cs"/>
     </ItemGroup>
     <ItemGroup>
@@ -75,7 +77,6 @@
         <Folder Include="Shewhart\Defects\"/>
         <Folder Include="Shewhart\Individual\"/>
         <Folder Include="Shewhart\Median\"/>
-        <Folder Include="Shewhart\StandardDeviation\"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

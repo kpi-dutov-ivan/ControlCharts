@@ -1,7 +1,18 @@
-﻿namespace Business.ControlCharts.StandardDeviation;
+﻿using Business.ControlCharts.Individual;
+using Business.ControlCharts.Shewhart;
 
-public class SChartPreSpecified(List<ISubgroup> subgroups, decimal sigma0) : XrsChart(subgroups)
+namespace Business.ControlCharts.StandardDeviation;
+
+public class SChartPreSpecified : IndividualControlChart, ISubgroupSized
 {
+    public SChartPreSpecified(List<decimal> individualValues, decimal sigma0, int subgroupSize) : base(individualValues)
+    {
+        Sigma0 = sigma0;
+        SubgroupSize = subgroupSize;
+    }
+
+    public int SubgroupSize { get; }
+
     private static readonly Dictionary<int, (decimal B5, decimal B6, decimal c4)> Coefficients = new()
     {
         { 2, (0, 2.606m, 0.7979m) },
@@ -30,14 +41,14 @@ public class SChartPreSpecified(List<ISubgroup> subgroups, decimal sigma0) : Xrs
         { 25, (0.559m, 1.42m, 0.9896m) }
     };
 
-    public decimal Sigma0 { get; } = sigma0;
+    public decimal Sigma0 { get; }
 
     public override void Calculate()
     {
-        Points = [.. Subgroups.Select(s => s.StandardDeviation)];
         var (B5, B6, c4) = Coefficients[SubgroupSize];
         CenterLine = c4 * Sigma0;
         LowerControlLine = B5 * Sigma0;
-        LowerControlLine = B6 * Sigma0;
+        UpperControlLine = B6 * Sigma0;
     }
+
 }

@@ -3,9 +3,9 @@ using Business.ControlCharts;
 
 namespace Tests
 {
-    public class SubgroupTestCase : TestCase
+    public class SubgroupControlChartTestCase : ControlChartTestCase
     {
-        public SubgroupTestCase(List<ISubgroup> subgroups,
+        public SubgroupControlChartTestCase(List<ISubgroup> subgroups,
             List<decimal> points,
             decimal centerLine,
             decimal upperControlLine,

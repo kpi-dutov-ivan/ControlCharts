@@ -2,9 +2,9 @@
 
 namespace Tests
 {
-    public class IndividualTestCase : TestCase
+    public class IndividualControlChartTestCase : ControlChartTestCase
     {
-        public IndividualTestCase(List<decimal> points,
+        public IndividualControlChartTestCase(List<decimal> points,
             decimal centerLine,
             decimal upperControlLine,
             decimal lowerControlLine) : base(points, centerLine, upperControlLine, lowerControlLine)

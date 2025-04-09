@@ -10,19 +10,20 @@ namespace Tests
         [Theory]
         [MemberData(nameof(GetXBarPreSpecifiedWithStandardDeviationTestData))]
         public void XBarChartWithStandardDeviation_WhenPreSpecified_CalculatesProperly(
-            XBarChartPreSpecifiedTestCase testCase)
+            XBarChartPreSpecifiedControlChartTestCase controlChartTestCase)
         {
-            var chart = new XBarChartPreSpecified(testCase.Subgroups, testCase.Mu0, testCase.Sigma0);
+            var chart = new XBarChartPreSpecified(controlChartTestCase.Subgroups, controlChartTestCase.Mu0, controlChartTestCase.Sigma0);
             chart.Calculate();
-            ControlChartTestHelper.CheckChart(testCase, chart);
+            ControlChartTestHelper.CheckChart(controlChartTestCase, chart, 3);
         }
 
-        public static TheoryData<XBarChartPreSpecifiedTestCase> GetXBarPreSpecifiedWithStandardDeviationTestData()
+        public static TheoryData<XBarChartPreSpecifiedControlChartTestCase> GetXBarPreSpecifiedWithStandardDeviationTestData()
         {
             return
-                new TheoryData<XBarChartPreSpecifiedTestCase>
+                new TheoryData<XBarChartPreSpecifiedControlChartTestCase>
                 {
-                    new XBarChartPreSpecifiedTestCase(
+                    // SOURCE: ISO 7870-2:2013 p.28-30
+                    new XBarChartPreSpecifiedControlChartTestCase(
                         new List<ISubgroup>
                         {
                             new DummySubgroup(29.816m, standardDeviation: 0.052m, size: 5),

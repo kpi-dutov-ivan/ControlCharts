@@ -2,9 +2,9 @@
 
 namespace Tests.Range
 {
-    public class RChartTestCase : IndividualTestCase
+    public class RChartControlChartTestCase : IndividualControlChartTestCase
     {
-        public RChartTestCase(List<decimal> points,
+        public RChartControlChartTestCase(List<decimal> points,
             int subgroupTestSize,
             decimal centerLine,
             decimal upperControlLine,

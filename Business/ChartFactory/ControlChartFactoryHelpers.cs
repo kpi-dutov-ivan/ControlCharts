@@ -1,6 +1,6 @@
 ﻿namespace Business
 {
-    class Helpers
+    static class ControlChartFactoryHelpers
     {
         public static decimal GetParameterValue(Dictionary<string, decimal> parameters, string key)
         {

@@ -1,8 +1,9 @@
 ﻿using Business.ControlCharts.Individual;
+using Business.ControlCharts.Shewhart;
 
 namespace Business.ControlCharts.Range;
 
-public class RChart : IndividualControlChart
+public class RChart : IndividualControlChart, ISubgroupSized
 {
     public int SubgroupSize { get; }
     public RChart(List<decimal> individualValues, int subgroupSize) : base(individualValues)
