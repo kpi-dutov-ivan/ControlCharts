@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{595C2ECA-BF5E-465A-B56A-91A6C1AEC7A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{D92EB9A5-C92E-4FFE-8ECD-C448CC23C227}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlChartTests", "ControlChartTests\ControlChartTests.csproj", "{D92EB9A5-C92E-4FFE-8ECD-C448CC23C227}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{C53E7661-A53B-4968-AB3F-8D26AD3293FA}"
 EndProject
