@@ -9,7 +9,7 @@ public static class ValueHelpers<T> where T : IValue<T>
         var sum = data.Aggregate((acc, value) => acc.Add(value));
         if (sum is null)
             throw new NullReferenceException();
-        return sum.Divide(data.Count);
+        return sum.DivideCount(data.Count);
     }
 
     public static T CalculateSubgroupAverage(List<ISubgroup<T>> data, Func<ISubgroup<T>, T> selector)

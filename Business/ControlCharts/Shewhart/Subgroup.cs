@@ -73,7 +73,7 @@ namespace Business
             var sumOfSquares = _data.Aggregate((currentSum, value) =>
                 currentSum.Add(value.Subtract(mean).Multiply(value.Subtract(mean))));
             
-            var variance = sumOfSquares.Divide(_data.Count - 1);
+            var variance = sumOfSquares.DivideCount(_data.Count - 1);
             return variance.Sqrt();
         }
 
@@ -86,7 +86,7 @@ namespace Business
             var length = sortedData.Count;
             return length % 2 == 1
                 ? sortedData[length / 2]
-                : sortedData[length / 2 - 1].Add((T)sortedData[length / 2]).Divide(2.0m);
+                : sortedData[length / 2 - 1].Add((T)sortedData[length / 2]).DivideCount(2);
         }
 
         public void UpdateData(int index, T value)

@@ -1,6 +1,6 @@
 ﻿namespace Business;
 
-public interface IValue<T> where T : IValue<T>
+public interface IValue<T> : IEquatable<T> where T : IValue<T>
 {
     public decimal NumberValue { get; }
     
@@ -9,7 +9,7 @@ public interface IValue<T> where T : IValue<T>
     public T Multiply(T value);
     public T Multiply(decimal value);
     public T Divide(T value);
-    public T Divide(decimal value);
+    public T DivideCount(int value);
     public T Sqrt();
     public T Abs();
 }

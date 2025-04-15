@@ -8,6 +8,13 @@ public class Value : IValue<Value>
         NumberValue = value;
     }
     
+    public Value(string value)
+    {
+        if (!decimal.TryParse(value, out var result))
+            throw new ArgumentException($"Invalid value: {value}");
+        NumberValue = result;
+    }
+    
     public Value Subtract(Value value)
     {
         if (value is null) throw new ArgumentNullException(nameof(value));
@@ -28,7 +35,7 @@ public class Value : IValue<Value>
 
     public Value Multiply(decimal value)
     {
-        throw new NotImplementedException();
+        return new Value(NumberValue * value);
     }
 
     public Value Divide(Value value)
@@ -38,7 +45,7 @@ public class Value : IValue<Value>
         return NumberValue / value.NumberValue;
     }
 
-    public Value Divide(decimal value)
+    public Value DivideCount(int value)
     {
         return new Value(NumberValue / value);
     }
@@ -75,4 +82,24 @@ public class Value : IValue<Value>
     
     public static implicit operator decimal(Value value) => value.NumberValue;
     public static implicit operator Value(decimal value) => new Value(value);
+
+    public bool Equals(Value other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return NumberValue == other.NumberValue;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((Value)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return NumberValue.GetHashCode();
+    }
 }
