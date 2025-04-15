@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Business;
 using Business.ControlCharts.Shewhart;
 
 namespace Tests.Range
 {
-    public class RmChartTestCase : IndividualControlChartTestCase, ISubgroupSized
+    public class RmChartTestCase<T> : IndividualControlChartTestCase<T>, ISubgroupSized where T: IValue<T>
     {
-        public List<decimal> ValuePoints { get; }
-        public RmChartTestCase(List<decimal> valuePoints, List<decimal> movingRangePoints, int subgroupSize, decimal centerLine, decimal upperControlLine, decimal lowerControlLine) : base(movingRangePoints, centerLine, upperControlLine, lowerControlLine)
+        public List<T> ValuePoints { get; }
+        public RmChartTestCase(List<string> valuePoints, List<string> movingRangePoints, int subgroupSize, string centerLine, string upperControlLine, string lowerControlLine) : base(movingRangePoints, centerLine, upperControlLine, lowerControlLine)
         {
-            ValuePoints = valuePoints;
+            ValuePoints = valuePoints.Select(ValueFactory.CreateValue<T>).ToList();
             SubgroupSize = subgroupSize;
         }
 

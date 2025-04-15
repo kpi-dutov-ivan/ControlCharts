@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Business;
 using Business.ControlCharts;
 
 namespace Tests
 {
-    public abstract class ControlChartTestCase : IControlChart
+    public abstract class ControlChartTestCase<T> : IControlChart<T> where T : IValue<T>
     {
-        public ControlChartTestCase(List<decimal> points, decimal centerLine, decimal upperControlLine, decimal lowerControlLine)
+        public ControlChartTestCase(List<string> points, string centerLine, string upperControlLine, string lowerControlLine)
         {
-            CenterLine = centerLine;
-            UpperControlLine = upperControlLine;
-            LowerControlLine = lowerControlLine;
-            Points = points;
+            CenterLine = ValueFactory.CreateValue<T>(centerLine);
+            UpperControlLine = ValueFactory.CreateValue<T>(upperControlLine);
+            LowerControlLine = ValueFactory.CreateValue<T>(lowerControlLine);
+            Points = points.Select(ValueFactory.CreateValue<T>).ToList();
         }
 
-        public decimal CenterLine { get; set; }
-        public decimal UpperControlLine { get; set; }
-        public decimal LowerControlLine { get; set; }
-        public List<decimal> Points { get; set; }
+        public T CenterLine { get; set; }
+        public T UpperControlLine { get; set; }
+        public T LowerControlLine { get; set; }
+        public List<T> Points { get; set; }
 
         public void Calculate()
         {

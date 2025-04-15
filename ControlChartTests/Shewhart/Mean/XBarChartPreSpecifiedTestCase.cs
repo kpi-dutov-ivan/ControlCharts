@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
+using Business;
 using Business.ControlCharts;
 
 namespace Tests
 {
-    public class XBarChartPreSpecifiedControlChartTestCase : SubgroupControlChartTestCase
+    public class XBarChartPreSpecifiedControlChartTestCase<T> : SubgroupControlChartTestCase<T> where T : IValue<T>
     {
-        public XBarChartPreSpecifiedControlChartTestCase(List<ISubgroup> subgroups, decimal mu0, decimal sigma0,
-            List<decimal> points, decimal centerLine, decimal upperControlLine, decimal lowerControlLine) : base(
+        public XBarChartPreSpecifiedControlChartTestCase(List<ISubgroup<T>> subgroups, string mu0, string sigma0,
+            List<string> points, string centerLine, string upperControlLine, string lowerControlLine) : base(
             subgroups, points, centerLine, upperControlLine, lowerControlLine)
         {
-            Mu0 = mu0;
-            Sigma0 = sigma0;
+            Mu0 = ValueFactory.CreateValue<T>(mu0);
+            Sigma0 = ValueFactory.CreateValue<T>(sigma0);
         }
 
-        public decimal Mu0 { get; }
-        public decimal Sigma0 { get; }
+        public T Mu0 { get; }
+        public T Sigma0 { get; }
     }
 }

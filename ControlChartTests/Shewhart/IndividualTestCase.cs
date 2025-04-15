@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using Business;
 
 namespace Tests
 {
-    public abstract class IndividualControlChartTestCase : ControlChartTestCase
+    public abstract class IndividualControlChartTestCase<T> : ControlChartTestCase<T> where T : IValue<T>
     {
-        public IndividualControlChartTestCase(List<decimal> points,
-            decimal centerLine,
-            decimal upperControlLine,
-            decimal lowerControlLine) : base(points, centerLine, upperControlLine, lowerControlLine)
+        public IndividualControlChartTestCase(List<string> points,
+            string centerLine,
+            string upperControlLine,
+            string lowerControlLine) : base(points, centerLine, upperControlLine, lowerControlLine)
         {
         }
     }

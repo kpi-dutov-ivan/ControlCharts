@@ -41,9 +41,9 @@ namespace Tests.Math
             return _preciseValueImplementation.Divide(value);
         }
 
-        public T Divide(decimal value)
+        public T DivideCount(int value)
         {
-            return _preciseValueImplementation.Divide(value);
+            return _preciseValueImplementation.DivideCount(value);
         }
 
         public T Sqrt()
@@ -58,5 +58,9 @@ namespace Tests.Math
 
         public int DecimalPlaces { get; }
         public int SignificantDigits { get; }
+        public bool Equals(T other)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

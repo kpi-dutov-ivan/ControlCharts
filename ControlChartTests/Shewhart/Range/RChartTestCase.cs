@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using Business;
 
 namespace Tests.Range
 {
-    public class RChartControlChartTestCase : IndividualControlChartTestCase
+    public class RChartControlChartTestCase<T> : IndividualControlChartTestCase<T> where T : IValue<T>
     {
-        public RChartControlChartTestCase(List<decimal> points,
+        public RChartControlChartTestCase(List<string> points,
             int subgroupTestSize,
-            decimal centerLine,
-            decimal upperControlLine,
-            decimal lowerControlLine) : base(points, centerLine, upperControlLine, lowerControlLine)
+            string centerLine,
+            string upperControlLine,
+            string lowerControlLine) : base(points, centerLine, upperControlLine, lowerControlLine)
         {
             SubgroupTestSize = subgroupTestSize;
         }

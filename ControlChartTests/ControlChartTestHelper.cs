@@ -1,28 +1,25 @@
 ﻿using System;
+using System.Runtime.ExceptionServices;
+using Business;
 using Business.ControlCharts;
 using Xunit;
 
 namespace Tests
 {
-    public class ControlChartTestHelper
+    public class ControlChartTestHelper<T> where T : IValue<T>
     {
-        public static void CheckChart(ControlChartTestCase controlChartTestCase, IControlChart chart, int precision = 4)
+        public static void CheckChart(ControlChartTestCase<T> controlChartTestCase, IControlChart<T> chart)
         {
-            if (precision <= 0)
-                throw new InvalidOperationException("Cannot run test with non-positive precision");
-            
-            CheckEqualPoints(controlChartTestCase, chart, precision);
-            Assert.Equal(controlChartTestCase.CenterLine, chart.CenterLine, precision);
-            Assert.Equal(controlChartTestCase.UpperControlLine, chart.UpperControlLine, precision);
-            Assert.Equal(controlChartTestCase.LowerControlLine, chart.LowerControlLine, precision);
-
+            CheckEqualPoints(controlChartTestCase, chart);
+            Assert.Equal<T>(controlChartTestCase.CenterLine, chart.CenterLine);
+            Assert.Equal<T>(controlChartTestCase.UpperControlLine, chart.UpperControlLine);
+            Assert.Equal<T>(controlChartTestCase.LowerControlLine, chart.LowerControlLine);
         }
 
-        private static void CheckEqualPoints(ControlChartTestCase controlChartTestCase, IControlChart chart,
-            int precision)
+        private static void CheckEqualPoints(ControlChartTestCase<T> controlChartTestCase, IControlChart<T> chart)
         {
             for (var i = 0; i < controlChartTestCase.Points.Count; i++)
-                Assert.Equal(controlChartTestCase.Points[i], chart.Points[i], precision);
+                Assert.Equal(controlChartTestCase.Points[i], chart.Points[i]);
         }
     }
 }

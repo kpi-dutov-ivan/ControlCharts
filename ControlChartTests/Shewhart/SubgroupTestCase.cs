@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
+using Business;
 using Business.ControlCharts;
 
 namespace Tests
 {
-    public abstract class SubgroupControlChartTestCase : ControlChartTestCase
+    public abstract class SubgroupControlChartTestCase<T> : ControlChartTestCase<T> where T: IValue<T>
     {
-        protected SubgroupControlChartTestCase(List<ISubgroup> subgroups,
-            List<decimal> points,
-            decimal centerLine,
-            decimal upperControlLine,
-            decimal lowerControlLine) : base(points, centerLine, upperControlLine, lowerControlLine)
+        protected SubgroupControlChartTestCase(List<ISubgroup<T>> subgroups,
+            List<string> points,
+            string centerLine,
+            string upperControlLine,
+            string lowerControlLine) : base(points, centerLine, upperControlLine, lowerControlLine)
         {
             Subgroups = subgroups;
         }
 
-        public List<ISubgroup> Subgroups { get; set; }
+        public List<ISubgroup<T>> Subgroups { get; set; }
     }
 }

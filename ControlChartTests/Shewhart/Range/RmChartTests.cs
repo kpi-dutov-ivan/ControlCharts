@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Business;
 using Business.ControlCharts.Individual;
 using Xunit;
 
@@ -8,77 +9,33 @@ namespace Tests.Range
     {
         [Theory]
         [MemberData(nameof(RmChartTestCases))]
-        public void RmChartTest(RmChartTestCase testCase)
+        public void RmChartTest(RmChartTestCase<Value> testCase)
         {
-            var rmChart = new RMChart(testCase.ValuePoints);
+            var rmChart = new RMChart<Value>(testCase.ValuePoints);
             rmChart.Calculate();
 
-            ControlChartTestHelper.CheckChart(testCase, rmChart);
+            ControlChartTestHelper<Value>.CheckChart(testCase, rmChart);
         }
         
-        public static TheoryData<RmChartTestCase> RmChartTestCases => new TheoryData<RmChartTestCase>
+        public static TheoryData<RmChartTestCase<Value>> RmChartTestCases => new TheoryData<RmChartTestCase<Value>>
         {
-            new RmChartTestCase(
-                new List<decimal>
+            new RmChartTestCase<Value>(
+                new List<string>
                 {
-                    2.9m,
-                    3.2m,
-                    3.6m,
-                    4.3m,
-                    3.8m,
-                    3.5m,
-                    3m,
-                    3.1m,
-                    3.6m,
-                    3.5m,
-                    3.1m,
-                    3.4m,
-                    3.4m,
-                    3.6m,
-                    3.3m,
-                    3.9m,
-                    3.5m,
-                    3.6m,
-                    3.3m,
-                    3m,
-                    3.4m,
-                    3.8m,
-                    3.5m,
-                    3.2m,
-                    3.5m,
-
+                    "2.9", "3.2", "3.6", "4.3", "3.8", "3.5", "3", "3.1", "3.6", "3.5",
+                    "3.1", "3.4", "3.4", "3.6", "3.3", "3.9", "3.5", "3.6", "3.3", "3",
+                    "3.4", "3.8", "3.5", "3.2", "3.5"
                 },
-                new List<decimal>
+                new List<string>
                 {
-                    0.3m,
-                    0.4m,
-                    0.7m,
-                    0.5m,
-                    0.3m,
-                    0.5m,
-                    0.1m,
-                    0.5m,
-                    0.1m,
-                    0.4m,
-                    0.3m,
-                    0m,
-                    0.2m,
-                    0.3m,
-                    0.6m,
-                    0.4m,
-                    0.1m,
-                    0.3m,
-                    0.3m,
-                    0.4m,
-                    0.4m,
-                    0.3m,
-                    0.3m,
-                    0.3m,
+                    "0.3", "0.4", "0.7", "0.5", "0.3", "0.5", "0.1", "0.5", "0.1", "0.4",
+                    "0.3", "0", "0.2", "0.3", "0.6", "0.4", "0.1", "0.3", "0.3", "0.4",
+                    "0.4", "0.3", "0.3", "0.3"
                 },
                 2,
-                0.3333m,
-                1.078m,
-                0m
+                "0.3333",
+                "1.078",
+                "0"
             ),
         };
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Business;
 using Business.ControlCharts;
 using Business.ControlCharts.Mean;
 using Xunit;
@@ -10,59 +11,59 @@ namespace Tests
         [Theory]
         [MemberData(nameof(GetXBarPreSpecifiedWithStandardDeviationTestData))]
         public void XBarChartWithStandardDeviation_WhenPreSpecified_CalculatesProperly(
-            XBarChartPreSpecifiedControlChartTestCase controlChartTestCase)
+            XBarChartPreSpecifiedControlChartTestCase<StatisticalValue> controlChartTestCase) 
         {
-            var chart = new XBarChartPreSpecified(controlChartTestCase.Subgroups, controlChartTestCase.Mu0, controlChartTestCase.Sigma0);
+            var chart = new XBarChartPreSpecified<StatisticalValue>(controlChartTestCase.Subgroups, controlChartTestCase.Mu0, controlChartTestCase.Sigma0);
             chart.Calculate();
-            ControlChartTestHelper.CheckChart(controlChartTestCase, chart, 3);
+            ControlChartTestHelper<StatisticalValue>.CheckChart(controlChartTestCase, chart);
         }
 
-        public static TheoryData<XBarChartPreSpecifiedControlChartTestCase> GetXBarPreSpecifiedWithStandardDeviationTestData()
+        public static TheoryData<XBarChartPreSpecifiedControlChartTestCase<StatisticalValue>> GetXBarPreSpecifiedWithStandardDeviationTestData()
         {
             return
-                new TheoryData<XBarChartPreSpecifiedControlChartTestCase>
+                new TheoryData<XBarChartPreSpecifiedControlChartTestCase<StatisticalValue>>
                 {
                     // SOURCE: ISO 7870-2:2013 p.28-30
-                    new XBarChartPreSpecifiedControlChartTestCase(
-                        new List<ISubgroup>
+                    new XBarChartPreSpecifiedControlChartTestCase<StatisticalValue>(
+                        new List<ISubgroup<StatisticalValue>>
                         {
-                            new DummySubgroup(29.816m, standardDeviation: 0.052m, size: 5),
-                            new DummySubgroup(29.932m, standardDeviation: 0.022m, size: 5),
-                            new DummySubgroup(29.858m, standardDeviation: 0.066m, size: 5),
-                            new DummySubgroup(29.824m, standardDeviation: 0.023m, size: 5),
-                            new DummySubgroup(29.888m, standardDeviation: 0.036m, size: 5),
-                            new DummySubgroup(29.830m, standardDeviation: 0.066m, size: 5),
-                            new DummySubgroup(29.868m, standardDeviation: 0.043m, size: 5),
-                            new DummySubgroup(29.876m, standardDeviation: 0.038m, size: 5),
-                            new DummySubgroup(29.910m, standardDeviation: 0.064m, size: 5),
-                            new DummySubgroup(29.802m, standardDeviation: 0.049m, size: 5),
-                            new DummySubgroup(29.884m, standardDeviation: 0.019m, size: 5),
-                            new DummySubgroup(29.880m, standardDeviation: 0.019m, size: 5),
-                            new DummySubgroup(29.916m, standardDeviation: 0.031m, size: 5),
-                            new DummySubgroup(29.898m, standardDeviation: 0.040m, size: 5),
-                            new DummySubgroup(29.946m, standardDeviation: 0.058m, size: 5),
-                            new DummySubgroup(29.842m, standardDeviation: 0.045m, size: 5),
-                            new DummySubgroup(29.824m, standardDeviation: 0.063m, size: 5),
-                            new DummySubgroup(29.904m, standardDeviation: 0.056m, size: 5),
-                            new DummySubgroup(29.912m, standardDeviation: 0.056m, size: 5),
-                            new DummySubgroup(29.886m, standardDeviation: 0.048m, size: 5),
-                            new DummySubgroup(29.908m, standardDeviation: 0.073m, size: 5),
-                            new DummySubgroup(29.852m, standardDeviation: 0.041m, size: 5),
-                            new DummySubgroup(29.828m, standardDeviation: 0.048m, size: 5),
-                            new DummySubgroup(29.904m, standardDeviation: 0.065m, size: 5),
-                            new DummySubgroup(29.902m, standardDeviation: 0.013m, size: 5)
+                            new DummySubgroup<StatisticalValue>("29.816", standardDeviation: "0.052", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.932", standardDeviation: "0.022", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.858", standardDeviation: "0.066", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.824", standardDeviation: "0.023", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.888", standardDeviation: "0.036", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.830", standardDeviation: "0.066", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.868", standardDeviation: "0.043", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.876", standardDeviation: "0.038", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.910", standardDeviation: "0.064", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.802", standardDeviation: "0.049", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.884", standardDeviation: "0.019", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.880", standardDeviation: "0.019", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.916", standardDeviation: "0.031", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.898", standardDeviation: "0.040", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.946", standardDeviation: "0.058", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.842", standardDeviation: "0.045", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.824", standardDeviation: "0.063", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.904", standardDeviation: "0.056", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.912", standardDeviation: "0.056", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.886", standardDeviation: "0.048", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.908", standardDeviation: "0.073", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.852", standardDeviation: "0.041", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.828", standardDeviation: "0.048", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.904", standardDeviation: "0.065", size: 5),
+                            new DummySubgroup<StatisticalValue>("29.902", standardDeviation: "0.013", size: 5)
                         },
-                        29.87m,
-                        0.062m,
-                        new List<decimal>
+                        "29.87",
+                        "0.062",
+                        new List<string>
                         {
-                            29.816m, 29.932m, 29.858m, 29.824m, 29.888m, 29.830m, 29.868m, 29.876m, 29.910m, 29.802m,
-                            29.884m, 29.880m, 29.916m, 29.898m, 29.946m, 29.842m, 29.824m, 29.904m, 29.912m, 29.886m,
-                            29.908m, 29.852m, 29.828m, 29.904m, 29.902m
+                            "29.816", "29.932", "29.858", "29.824", "29.888", "29.830", "29.868", "29.876", "29.910", "29.802",
+                            "29.884", "29.880", "29.916", "29.898", "29.946", "29.842", "29.824", "29.904", "29.912", "29.886",
+                            "29.908", "29.852", "29.828", "29.904", "29.902"
                         },
-                        29.87m,
-                        29.953m,
-                        29.787m)
+                        "29.87",
+                        "29.953",
+                        "29.787")
                 };
         }
     }

@@ -55,7 +55,7 @@
         <Compile Include="ControlChartTestCase.cs"/>
         <Compile Include="ControlChartTestHelper.cs"/>
         <Compile Include="Math\PreciseValueTestCase.cs" />
-        <Compile Include="Math\PreciseValueTests.cs" />
+        <Compile Include="Math\StatisticalValueTests.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="Shewhart\DummySubgroup.cs"/>
         <Compile Include="Shewhart\IndividualTestCase.cs"/>
